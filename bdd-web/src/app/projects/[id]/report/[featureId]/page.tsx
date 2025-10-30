@@ -1,22 +1,13 @@
-'use client';
-
-import { useProjectStore } from '@/store/projectStore';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Feature, TestRun, Scenario } from '@/lib/types';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import ReportPageClient from './report-page-client';
 
 export default async function ReportPage({ params }: { params: Promise<{ id: string; featureId: string }> }) {
-  const router = useRouter();
   const { id, featureId } = await params;
-  const { activeProject, setActiveProject, projects, isLoading, fetchProjects } = useProjectStore();
-  const [feature, setFeature] = useState<Feature | null>(null);
-  const [selectedRun, setSelectedRun] = useState<TestRun | null>(null);
-  const [environment, setEnvironment] = useState<'staging' | 'production' | 'uat'>('staging');
-  const [availableRuns, setAvailableRuns] = useState<TestRun[]>([]);
-  const [expandedScenarios, setExpandedScenarios] = useState<Set<string>>(new Set());
-  const [statusFilter, setStatusFilter] = useState<'all' | 'passed' | 'failed' | 'skipped' | 'untested'>('all');
+  return <ReportPageClient projectId={id} featureId={featureId} />;
+}
+
+export async function generateStaticParams() {
+  return [] as Array<{ id: string; featureId: string }>;
+}
 
   const toggleScenario = (scenarioId: string) => {
     const newExpanded = new Set(expandedScenarios);
