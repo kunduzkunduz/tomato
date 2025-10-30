@@ -9,6 +9,7 @@ export async function generateStaticParams() {
   return [] as Array<{ id: string; featureId: string }>;
 }
 
+
   const toggleScenario = (scenarioId: string) => {
     const newExpanded = new Set(expandedScenarios);
     if (newExpanded.has(scenarioId)) {
