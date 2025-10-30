@@ -30,7 +30,7 @@ export function ToastHost() {
   }, []);
 
   const color = (v?: string) =>
-    v === 'error' ? 'bg-rose-600' : 'bg-[#FF8001]';
+    v === 'error' ? 'bg-rose-600' : v === 'success' ? 'bg-[#00A396]' : 'bg-[#FF8001]';
 
   return (
     <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2">
