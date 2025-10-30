@@ -153,7 +153,104 @@ export default function ReportPageClient({ projectId, featureId }: { projectId: 
           </div>
         </div>
 
-        {/* The rest (scenario details and version comparison) stays same as before */}
+        {/* Scenario Details */}
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          <h2 className="text-3xl font-bold text-slate-800 mb-6">Scenario Details</h2>
+          <div className="space-y-3">
+            {filteredScenarios.map((scenario) => {
+              const isExpanded = expandedScenarios.has(scenario.id);
+              const getKeywordColor = (kw: string) => {
+                const k = kw.toLowerCase();
+                if (k === 'given') return 'bg-[#2B81FC]';
+                if (k === 'when') return 'bg-[#FB5058]';
+                if (k === 'then') return 'bg-[#9C006D]';
+                return 'bg-[#00A396]';
+              };
+
+              return (
+                <div key={scenario.id} className="border-2 border-slate-200 rounded-xl overflow-hidden hover:border-slate-300 transition-all">
+                  <div
+                    onClick={() => toggleScenario(scenario.id)}
+                    className="flex items-center justify-between p-4 cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      {isExpanded ? <ChevronUp className="text-slate-500" /> : <ChevronDown className="text-slate-500" />}
+                      <h3 className="font-bold text-lg text-slate-800">{scenario.name}</h3>
+                    </div>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                      scenario.status === 'passed' ? 'bg-emerald-100 text-emerald-700' :
+                      scenario.status === 'failed' ? 'bg-rose-100 text-rose-700' :
+                      scenario.status === 'skipped' ? 'bg-yellow-100 text-yellow-700' :
+                      'bg-slate-600 text-white'
+                    }`}>
+                      {scenario.status.toUpperCase()}
+                    </span>
+                  </div>
+
+                  {isExpanded && (
+                    <div className="p-4 space-y-2 bg-white">
+                      {scenario.steps.map((step, idx) => {
+                        const getStepColor = () => {
+                          if (step.result === 'passed') return 'bg-emerald-50 border-emerald-200';
+                          if (step.result === 'failed') return 'bg-rose-50 border-rose-200';
+                          if (step.result === 'skipped') return 'bg-yellow-50 border-yellow-200';
+                          return 'bg-slate-50 border-slate-200';
+                        };
+                        return (
+                          <div key={step.id} className={`flex flex-col gap-2 p-3 rounded-lg border ${getStepColor()}`}>
+                            <div className="flex-shrink-0">
+                              <span className={`px-2 py-1 rounded text-xs font-bold text-white ${getKeywordColor(step.keyword)}`}>{step.keyword.toUpperCase()}</span>
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm font-medium text-slate-800">{step.text}</p>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Version Comparison */}
+        {availableRuns.length > 1 && (
+          <div className="bg-white rounded-2xl shadow-lg p-8 mt-8">
+            <h2 className="text-3xl font-bold text-slate-800 mb-6">Version Comparison</h2>
+            <div className="space-y-6">
+              {availableRuns.map((run) => (
+                <div key={run.id} className="border-2 border-slate-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <h3 className="font-bold text-lg text-slate-800">{run.version}</h3>
+                      <p className="text-xs text-slate-500">{new Date(run.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <div className="flex gap-4 text-sm">
+                      <div className="text-center">
+                        <div className="font-bold text-blue-600">{run.summary.total}</div>
+                        <div className="text-slate-500">Total</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-bold text-emerald-600">{run.summary.passed}</div>
+                        <div className="text-slate-500">Passed</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-bold text-rose-600">{run.summary.failed}</div>
+                        <div className="text-slate-500">Failed</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="font-bold text-yellow-600">{run.summary.skipped}</div>
+                        <div className="text-slate-500">Skipped</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
