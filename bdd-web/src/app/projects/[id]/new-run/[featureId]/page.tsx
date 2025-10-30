@@ -32,3 +32,8 @@ export default function NewRunPage({ params }: { params: Promise<{ id: string; f
   );
 }
 
+// Allow Next.js static export by providing an empty param list
+export async function generateStaticParams() {
+  return [] as Array<{ id: string; featureId: string }>;
+}
+
