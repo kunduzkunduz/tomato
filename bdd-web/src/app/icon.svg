@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="230" fill="#FFFFFF" stroke="#FB5058" stroke-width="24"/>
+  <!-- Simple tomato glyph -->
+  <circle cx="256" cy="276" r="110" fill="#FB5058"/>
+  <path d="M256 148c-22 0-40 10-52 26 12 2 27 4 52 4s40-2 52-4c-12-16-30-26-52-26z" fill="#00A396"/>
+</svg>
+
