@@ -1,18 +1,8 @@
-'use client';
+import DocsPageClient from './docs-page-client';
 
-import { DocsViewer } from '@/components/DocsViewer';
-import { useProjectStore } from '@/store/projectStore';
-import { useEffect, use } from 'react';
-
-export default function DocsPage({ params }: { params: Promise<{ id: string; featureId: string }> }) {
-  const { id: projectId, featureId } = use(params);
-  const { setActiveProject } = useProjectStore();
-  
-  useEffect(() => {
-    setActiveProject(projectId);
-  }, [projectId, setActiveProject]);
-
-  return <DocsViewer projectId={projectId} featureId={featureId} />;
+export default async function DocsPage({ params }: { params: Promise<{ id: string; featureId: string }> }) {
+  const { id: projectId, featureId } = await params;
+  return <DocsPageClient projectId={projectId} featureId={featureId} />;
 }
 
 export async function generateStaticParams() {
