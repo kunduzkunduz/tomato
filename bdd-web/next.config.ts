@@ -1,8 +1,9 @@
 import type { NextConfig } from "next";
 import path from "path";
 
-// Make GH Pages settings conditional so local/Vercel dev works seamlessly
-const isGhPages = process.env.NEXT_PUBLIC_DEPLOY_TARGET === "gh-pages";
+// Make GH Pages settings conditional. Never "export" on Vercel runtime.
+const isVercel = process.env.VERCEL === "1";
+const isGhPages = !isVercel && process.env.NEXT_PUBLIC_DEPLOY_TARGET === "gh-pages";
 
 const nextConfig: NextConfig = {
   ...(isGhPages ? { output: "export", trailingSlash: true } : {}),
