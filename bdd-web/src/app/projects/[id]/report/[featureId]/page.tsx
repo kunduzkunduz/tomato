@@ -7,9 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Feature, TestRun, Scenario } from '@/lib/types';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
-export default function ReportPage({ params }: { params: { id: string; featureId: string } }) {
+export default async function ReportPage({ params }: { params: Promise<{ id: string; featureId: string }> }) {
   const router = useRouter();
-  const { id, featureId } = params;
+  const { id, featureId } = await params;
   const { activeProject, setActiveProject, projects, isLoading, fetchProjects } = useProjectStore();
   const [feature, setFeature] = useState<Feature | null>(null);
   const [selectedRun, setSelectedRun] = useState<TestRun | null>(null);
