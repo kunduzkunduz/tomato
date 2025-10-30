@@ -7,7 +7,8 @@ const isGhPages = process.env.NEXT_PUBLIC_DEPLOY_TARGET === "gh-pages";
 const nextConfig: NextConfig = {
   ...(isGhPages ? { output: "export", trailingSlash: true } : {}),
   images: { unoptimized: true },
-  ...(isGhPages ? { basePath: "/domates", assetPrefix: "/domates/" } : {}),
+  // Adjust basePath/assetPrefix to the GitHub repo name
+  ...(isGhPages ? { basePath: "/tomato", assetPrefix: "/tomato/" } : {}),
   // Silence monorepo root warning in dev
   outputFileTracingRoot: path.join(__dirname, ".."),
   // Allow export even if ESLint finds warnings/errors (does not affect dev)
