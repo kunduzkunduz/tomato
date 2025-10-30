@@ -127,6 +127,50 @@ export default function ReportPageClient({ projectId, featureId }: { projectId: 
               }`}>{environment.toUpperCase()}</span>
             </div>
           </div>
+
+          {/* Environment + Version + Pass Rate */}
+          <div className="mt-4 flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-semibold text-slate-700">Environment:</label>
+              <Select value={environment} onValueChange={(value) => setEnvironment(value as 'staging' | 'production' | 'uat')}>
+                <SelectTrigger className="w-32 h-9">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="staging">Staging</SelectItem>
+                  <SelectItem value="production">Production</SelectItem>
+                  <SelectItem value="uat">UAT</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {availableRuns.length > 0 && (
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-slate-700">Version:</label>
+                <Select value={selectedRun?.id || ''} onValueChange={(value) => {
+                  const run = availableRuns.find(r => r.id === value);
+                  if (run) setSelectedRun(run);
+                }}>
+                  <SelectTrigger className="w-40 h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {availableRuns.map(run => (
+                      <SelectItem key={run.id} value={run.id}>
+                        {run.version} ({new Date(run.createdAt).toLocaleDateString()})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
+            {/* Pass Rate badge */}
+            <div className="ml-auto text-center px-4 py-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl text-white shadow">
+              <div className="text-lg font-bold">{passRate}%</div>
+              <div className="text-[11px] opacity-90">Pass Rate</div>
+            </div>
+          </div>
         </div>
 
         {/* Summary Cards */}
