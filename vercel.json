@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd bdd-web && npm ci && npm run build",
-  "installCommand": "cd bdd-web && npm ci",
+  "rootDirectory": "bdd-web",
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci",
   "framework": "nextjs"
 }
 
