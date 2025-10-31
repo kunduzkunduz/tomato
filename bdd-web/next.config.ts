@@ -22,8 +22,8 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   // Adjust basePath/assetPrefix to the GitHub repo name (only for GH Pages)
   ...(isGhPages && !isVercel ? { basePath: "/tomato", assetPrefix: "/tomato/" } : {}),
-  // Silence monorepo root warning in dev
-  outputFileTracingRoot: path.join(__dirname, ".."),
+  // Silence monorepo root warning in dev (only in dev, not on Vercel)
+  ...(!isVercel && process.env.NODE_ENV === "development" ? { outputFileTracingRoot: path.join(__dirname, "..") } : {}),
   // Allow export even if ESLint finds warnings/errors (does not affect dev)
   eslint: { ignoreDuringBuilds: true },
 };
